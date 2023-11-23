@@ -1,1 +1,10 @@
-/*# sourceMappingURL=Home.css.map */
+@media (max-width: 1200px) {
+  .title-home {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 991px) {
+  .title-home {
+    font-size: 1.6rem;
+  }
+}/*# sourceMappingURL=Home.css.map */

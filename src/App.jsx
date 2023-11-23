@@ -1,19 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './page/Home/Home';
 import Login from './page/Login/login';
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        
-        <Route path="/" element={<Navigate to="/login" />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </Router>
+function App() {
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  return (
+    
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login setLoggedInUser={setLoggedInUser} />} />
+      <Route path="/home" element={<Home loggedInUser={loggedInUser} />} />
+    </Routes>
   );
 }
 

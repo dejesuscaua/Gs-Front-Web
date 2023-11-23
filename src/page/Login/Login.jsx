@@ -1,70 +1,67 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginData from '/db/db.json';
-import './Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ImageLogin from '../../assets/Loginimage.jpg';
+import './Login.css';
 
-function Login() {
+function Login({ setLoggedInUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+  
     const { usuarios } = loginData.login;
     const user = usuarios.find(u => u.email === email && u.senha === password);
-
+  
     if (user) {
-      // Credenciais corretas - redirecionar para a página Home
+      const userObject = { name: user.name, email: user.email };
+      sessionStorage.setItem('loggedInUser', JSON.stringify(userObject));
       navigate('/home');
+      setLoggedInUser(userObject);
     } else {
-      // Credenciais incorretas - exibir uma mensagem de erro ou realizar outras ações aqui
       console.log('Credenciais inválidas!');
-      alert("Credenciais inválidas!")
+      alert("Credenciais inválidas!");
     }
   };
-
   return (
-    <div>
-      <div className=" row justify-content-center ">
-        <div className='col-4 pt-5 m-5 p-5'>
-          <img className='border rounded w-100 ' src={ImageLogin} alt="" />
-        </div>
+    <div className='Loginbody'>
+      <div className='container '>
+        <div className="row  justify-content-center LoginPage">
+          <div className=' col-lg-3  col-md-6 col-sm-10 d-flex flex-column'>
+            <form className=' FormBox border border-3  border-white rounded p-5 w-100' onSubmit={(e) => handleLogin(e)}>
+              <h1 className='  d-flex m-5 justify-content-center mb-5'>LOGIN</h1>
 
-        <div className='col-4 mt-5 d-flex flex-column'>
-          <form className='pt-5' onSubmit={(e) => handleLogin(e)}>
-            <h1 className='d-flex justify-content-center mb-5'>Login</h1>
+              <div className='mb-3'>
+                <input
+                  className='form-control'
+                  type="email"
+                  placeholder='Email'
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div className='d-flex justify-content-center'>
-              <input
-                className='pt-2 pb-2 border rounded w-75'
-                type="email"
-                placeholder='Email :'
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+              <div className='mb-3 '>
+                <input
+                  className='form-control'
+                  type="password"
+                  placeholder='Senha'
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div className='mt-2 d-flex justify-content-center '>
-              <input
-                className='pt-2 pb-2 border rounded w-75 '
-                type="password"
-                placeholder='Senha :'
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className='mt-5 d-flex justify-content-center'>
-              <button className='border rounded pt-2 pb-2 w-50' type="submit">Entrar</button>
-            </div>
-          </form>
+              <div className='mt-4'>
+                <button className='btn btn-primary w-100' type="submit">Entrar</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
